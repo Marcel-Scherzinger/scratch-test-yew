@@ -53,7 +53,7 @@ where
         return html!();
     }
     html!(
-        <details class="messages-container second-level-box" open={*open} data-highest-kind={highest_kind}>
+        <details class="messages-container case-part-box" open={*open} data-highest-kind={highest_kind}>
             <summary>
                 {sinplu(info + warn + err, "Nachricht", "Nachrichten")}
                 {" ("}

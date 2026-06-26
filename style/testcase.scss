@@ -1,0 +1,55 @@
+.testcase-container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  border-style: solid;
+  border-width: 0.1rem;
+  border-radius: var(--case-part-border-radius);
+  border-color: var(--case-part-border-color);
+  background-color: var(--case-part-box);
+}
+
+.testcase-container[data-status="failure"] {
+  background: var(--failure-background);
+}
+
+.testcase-container[data-status="success-but-warnings"] {
+  background: var(--warning-background);
+}
+
+.testcase-container[data-status="success"] {
+  background: var(--success-background);
+}
+
+.testcase-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 'heading heading' 'msg msg' 'input output' 'variables lists';
+  grid-column-gap: 0.5rem;
+  grid-row-gap: 0.5rem;
+
+  h3 {
+    grid-area: heading;
+  }
+
+  .messages-container {
+    grid-area: msg;
+  }
+
+  .testcase-inputs {
+    grid-area: input;
+  }
+
+  .testcase-outputs {
+    grid-area: output;
+  }
+
+  .testcase-variables {
+    grid-area: variables;
+  }
+
+  .testcase-lists {
+    grid-area: lists;
+  }
+}

@@ -1,0 +1,60 @@
+.message-container {
+  margin-bottom: 0.5rem;
+}
+
+.message-container:last-child {
+  margin-bottom: 0rem;
+}
+
+.message-container {
+  border-radius: 1rem;
+  padding: 0.5rem;
+
+  display: grid;
+  grid-template-areas: 'icon text';
+  grid-column-gap: 0.2rem;
+
+  .message-content {
+    grid-area: text;
+    text-align: justify;
+    word-break: break-word;
+  }
+
+  .message-icon {
+    grid-area: icon;
+    min-width: 2rem;
+    text-align: center;
+  }
+}
+
+.message-info {
+  background: var(--success-background);
+}
+
+.message-warning {
+  background: var(--warning-background);
+}
+
+.message-error {
+  background: var(--failure-background);
+}
+
+// details.case-part-box,
+.case-part-box {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  background: var(--case-part-box);
+}
+
+.messages-container[open] {
+  background: var(--case-part-box);
+
+  ul {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+}

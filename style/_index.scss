@@ -1,0 +1,48 @@
+$darken-msg-boxes: 10%;
+$dark-background: rgb(25, 35, 44);
+
+// allows for adding transparent color on top of another color, the ground
+@function overlayback($top, $ground) {
+  @return linear-gradient($top, $top), linear-gradient($ground, $ground);
+}
+
+[data-theme="dark"] {
+  --main-background: rgb(25, 35, 44);
+  --primary-text-color: white;
+  --list-numbering-color: lime;
+  --case-part-border-color: white;
+
+  --success-background: #{darken($color: rgba(0, 200, 0, 0.8), $amount: 10%)};
+  --warning-background: #{darken($color: rgba(250, 120, 0, 0.8), $amount: 10%)};
+  --failure-background: #{darken($color: rgba(250, 0, 0, 0.7), $amount: 10%)};
+}
+
+
+[data-theme="light"] {
+  --main-background: #e0e0e0;
+  --primary-text-color: black;
+  --list-numbering-color: #a0a0a0;
+  --case-part-border-color: black;
+
+  --success-background: #{darken($color: rgba(0, 200, 0, 0.8), $amount: 5%)};
+  --warning-background: #{darken($color: rgba(250, 120, 0, 0.8), $amount: 5%)};
+  --failure-background: #{darken($color: rgba(250, 0, 0, 0.7), $amount: 5%)};
+}
+
+[data-theme] {
+  --transparent-case-part-box: rgba(42, 173, 255, 0.1);
+  --case-part-border-radius: 1rem;
+  --case-part-box: #{overlayback(var(--transparent-case-part-box), var(--main-background))};
+}
+
+body {
+  font-family: 'Arial';
+  font-size: 12pt;
+  background-color: var(--main-background);
+  color: var(--primary-text-color);
+}
+
+@import "messages.scss";
+@import "case_parts.scss";
+@import "utils.scss";
+@import "testcase.scss";

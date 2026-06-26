@@ -1,0 +1,62 @@
+.case-part-box {
+  border-style: solid;
+  border-width: 0.1rem;
+  border-radius: 1rem;
+  border-color: var(--case-part-border-color);
+  background: var(--case-part-box);
+
+  summary {
+    font-weight: bold;
+  }
+}
+
+.testcase-status {
+  margin-top: 0.3rem;
+  margin-bottom: 0.4rem;
+
+  display: flex;
+  align-content: center;
+
+  .testcase-status-icon {
+    display: inline-block;
+    line-height: 1;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-right: 1.2rem;
+  }
+
+  .testcase-status-title {
+    line-height: 1;
+    margin-bottom: auto;
+    margin-top: auto;
+  }
+}
+
+.testcase-inputs,
+.testcase-outputs {
+  overflow-x: auto;
+}
+
+.testcase-inputs,
+.testcase-outputs,
+.testcase-lists {
+  li {
+    font-size: 0.75rem;
+    color: var(--list-numbering-color);
+  }
+
+  li>span {
+    font-size: 1rem;
+    color: var(--primary-text-color);
+    font-family: monospace;
+    overflow-wrap: anywhere;
+  }
+}
+
+.testcase-lists tr td {
+  vertical-align: top;
+
+  ol {
+    margin: 0;
+  }
+}
