@@ -1,7 +1,10 @@
 mod components;
+mod messages;
 mod routes;
+mod utils;
 
 pub use routes::MainRoute;
+pub use utils::MaterialIcon;
 use yew::prelude::*;
 
 #[function_component(App)]
