@@ -50,14 +50,12 @@
   li>span {
     font-size: 1rem;
     color: var(--primary-text-color);
-    font-family: monospace;
-    overflow-wrap: anywhere;
   }
 }
 
-.testcase-variables td:nth-child(2) {
+.testcase-variables td:nth-child(2),
+.testcase-criterion td:nth-child(2) {
   padding-left: 1.5rem;
-  font-family: monospace;
 }
 
 .testcase-lists tr td {
@@ -65,10 +63,31 @@
 
   ol {
     margin: 0;
+  }
+}
 
-    li span {
-      font-family: monospace;
-    }
+.testcase-criterion summary {
+  display: flex;
+
+  span {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .title {
+    margin-right: auto;
+  }
+
+}
+
+.testcase-criterion {
+
+  td:first-child {
+    font-weight: bold;
+  }
+
+  td:last-child {
+    font-family: monospace;
   }
 }
 

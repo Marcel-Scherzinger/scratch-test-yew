@@ -1,11 +1,16 @@
 use crate::components::MessageHubComponent;
-use crate::testcase::TestCaseStatusIconComponent;
+use crate::testcase::{TestCaseCriterionComponent, TestCaseStatusIconComponent};
+use crate::utils::Literal;
 use sreport::prelude::{TestCase, TestCaseStatus};
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct TestCaseProps {
     pub case: TestCase,
+}
+
+fn to_list_items<D: ToString>(iter: impl Iterator<Item = D>) -> impl Iterator<Item = Html> {
+    iter.map(|i| html!(<li><Literal text={i.to_string()}/></li>))
 }
 
 #[derive(Properties, PartialEq)]
@@ -19,7 +24,7 @@ pub fn test_case(TestCaseProps { case }: &TestCaseProps) -> Html {
     let status = case.status().clone();
     let inputs = case.inputs().clone();
     let randoms = case.randoms().clone();
-    let error_code = case.error_code().clone();
+    // let error_code = case.error_code().clone();
     let criterion = case.criterion().clone();
     let received = case.received().clone();
 
@@ -32,25 +37,23 @@ pub fn test_case(TestCaseProps { case }: &TestCaseProps) -> Html {
         TestCaseStatus::SuccessButWarnings => "Es liegen Warnungen vor",
     };
 
-    let inputs_comp = inputs
-        .into_iter()
-        .map(|i| html!(<li><span>{i.to_string().replace(" ", "␣")}</span></li>));
-    let outputs_comp = received
+    let last_output = received
         .output()
-        .iter()
-        .map(|i| html!(<li><span>{i.to_string().replace(" ", "␣")}</span></li>));
+        .last()
+        .map(|s| AttrValue::from(s.to_string()));
+
+    let inputs_comp = to_list_items(inputs.iter());
+    let outputs_comp = to_list_items(received.output().iter());
     let variables_comp = variables.iter().map(|(key, value)| {
         html!(
             <tr>
                 <td>{key.to_string()}</td>
-                <td>{value.to_string().replace(" ", "␣")}</td>
+                <td><Literal text={value.to_string()}/></td>
             </tr>
         )
     });
     let lists_comp = lists.iter().map(|(key, value)| {
-        let list = value
-            .iter()
-            .map(|m| html!(<li><span>{m.to_string().replace(" ", "␣")}</span></li>));
+        let list = to_list_items(value.iter());
         html!(
             <tr>
                 <td>{key.to_string()}</td>
@@ -59,9 +62,7 @@ pub fn test_case(TestCaseProps { case }: &TestCaseProps) -> Html {
         )
     });
     let randoms_div = if let Some(randoms) = randoms {
-        let randoms_comp = randoms
-            .iter()
-            .map(|r| html!(<li><span>{r.to_string()}</span></li>));
+        let randoms_comp = to_list_items(randoms.iter());
         html!(
             <details class="testcase-randoms case-part-box">
                 <summary>{"Zufallszahlen:"}</summary>
@@ -80,7 +81,12 @@ pub fn test_case(TestCaseProps { case }: &TestCaseProps) -> Html {
             <span class="testcase-status-title"> {status_title} </span>
         </h3>
 
-        <MessageHubComponent<TestCase> open={true} {messages}/>
+        <MessageHubComponent<TestCase> open={true} {messages} classes={"testcase-messages"}/>
+
+
+        if let Some(criterion) = criterion {
+            <TestCaseCriterionComponent {criterion} {last_output}/>
+        }
 
         {randoms_div}
 
