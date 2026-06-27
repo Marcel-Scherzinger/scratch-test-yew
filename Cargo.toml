@@ -11,7 +11,7 @@ js-sys = "0.3.81"
 log = "0.4.28"
 wasm-bindgen-futures = "0.4.54"
 wasm-logger = "0.2.0"
-web-sys = { version = "0.3.81", features = ["DataTransfer"] }
+web-sys = { version = "0.3.81", features = ["DataTransfer", "MediaQueryList", "Window"] }
 yew = { version = "0.21.0", features = ["csr"] }
 yew-router = "0.18.0"
 
@@ -22,6 +22,12 @@ git = "https://github.com/Marcel-Scherzinger/scratch-test-report.git"
 package = "scratch-test-report"
 features = ["serde"]
 
-[dependencies.scratch-test-interpreter]
-git = "https://github.com/Marcel-Scherzinger/scratch-test-interpreter.git"
-default-features = false
+[dependencies.smodel]
+git = "https://github.com/Marcel-Scherzinger/scratch-test-model.git"
+package = "scratch-test-model"
+features = ["sb3"]
+
+[dependencies.svalue]
+git = "https://github.com/Marcel-Scherzinger/scratch-test-value.git"
+package = "scratch-test-value"
+
