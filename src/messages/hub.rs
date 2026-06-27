@@ -8,6 +8,8 @@ pub struct MessagesProps<Level> {
     pub messages: Messages<Level>,
     #[prop_or(true)]
     pub open: bool,
+    #[prop_or_default]
+    pub classes: Classes,
 }
 
 fn sinplu(num: usize, sin: &'static str, plu: &'static str) -> String {
@@ -21,7 +23,13 @@ fn sinplu(num: usize, sin: &'static str, plu: &'static str) -> String {
 }
 
 #[function_component(MessageHubComponent)]
-pub fn message<Level>(MessagesProps { messages, open }: &MessagesProps<Level>) -> Html
+pub fn message<Level>(
+    MessagesProps {
+        messages,
+        open,
+        classes,
+    }: &MessagesProps<Level>,
+) -> Html
 where
     Level: Clone + 'static,
 {
@@ -53,7 +61,8 @@ where
         return html!();
     }
     html!(
-        <details class="messages-container case-part-box" open={*open} data-highest-kind={highest_kind}>
+        <details class={classes!("messages-container", "case-part-box", classes.clone())}
+            open={*open} data-highest-kind={highest_kind}>
             <summary>
                 {sinplu(info + warn + err, "Nachricht", "Nachrichten")}
                 {" ("}
@@ -62,7 +71,7 @@ where
                 {sinplu(warn, "Warnung", "Warnungen")}
                 {", "}
                 {sinplu(info, "Hinweis", "Hinweise")}
-                {")"}
+                {"):"}
             </summary>
             <ul class="messages-list">
                 {for msgs}
