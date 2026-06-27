@@ -4,6 +4,7 @@
   border-radius: 1rem;
   border-color: var(--case-part-border-color);
   background: var(--case-part-box);
+  margin-bottom: 0.5rem;
 
   summary {
     font-weight: bold;
@@ -39,7 +40,8 @@
 
 .testcase-inputs,
 .testcase-outputs,
-.testcase-lists {
+.testcase-lists,
+.testcase-randoms {
   li {
     font-size: 0.75rem;
     color: var(--list-numbering-color);
@@ -53,10 +55,27 @@
   }
 }
 
+.testcase-variables td:nth-child(2) {
+  font-family: monospace;
+}
+
 .testcase-lists tr td {
   vertical-align: top;
 
   ol {
     margin: 0;
+
+    li span {
+      font-family: monospace;
+    }
   }
 }
+
+/*.testcase-randoms {
+  li {
+    float: left;
+    width: 40%;
+    list-style-type: decimal;
+  }
+}
+*/
