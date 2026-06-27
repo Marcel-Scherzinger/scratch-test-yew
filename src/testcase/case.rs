@@ -76,10 +76,10 @@ pub fn test_case(TestCaseProps { case }: &TestCaseProps) -> Html {
     };
 
     html!(<section class="testcase-container" data-status={status.to_string()}>
-        <h3 class="testcase-status">
+        <h4 class="testcase-status">
             <TestCaseStatusIconComponent {status}/>
             <span class="testcase-status-title"> {status_title} </span>
-        </h3>
+        </h4>
 
         <MessageHubComponent<TestCase> open={true} {messages} classes={"testcase-messages"}/>
 

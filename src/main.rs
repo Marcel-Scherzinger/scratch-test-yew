@@ -1,5 +1,6 @@
 mod components;
 mod messages;
+mod report;
 mod routes;
 mod testcase;
 mod utils;

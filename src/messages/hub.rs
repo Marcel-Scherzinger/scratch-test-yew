@@ -2,6 +2,7 @@ use sreport::messages::{MessageKind, Messages};
 use yew::prelude::*;
 
 use crate::messages::MessageComponent;
+use crate::utils::sinplu;
 
 #[derive(Properties, derive_more::PartialEq)]
 pub struct MessagesProps<Level> {
@@ -10,16 +11,6 @@ pub struct MessagesProps<Level> {
     pub open: bool,
     #[prop_or_default]
     pub classes: Classes,
-}
-
-fn sinplu(num: usize, sin: &'static str, plu: &'static str) -> String {
-    if num == 0 {
-        format!("keine {plu}")
-    } else if num == 1 {
-        format!("1 {sin}")
-    } else {
-        format!("{num} {plu}")
-    }
 }
 
 #[function_component(MessageHubComponent)]
