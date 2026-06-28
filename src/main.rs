@@ -42,10 +42,11 @@ fn app() -> Html {
             html.set_attribute("data-theme", &ctx.to_string()).ok();
         }
     }
+    const BASENAME: Option<&str> = Some(std::env!("ROUTER_BASENAME"));
 
     html!(
         <ContextProvider<UseStateHandle<Theme>> context={ctx.clone()}>
-         <BrowserRouter>
+         <BrowserRouter basename={BASENAME}>
             <Switch<MainRoute> render={switch_main} />
          </BrowserRouter>
         </ContextProvider<UseStateHandle<Theme>>>
