@@ -50,7 +50,7 @@
           };
         };
 
-        packages.local-frontend = self.build { BACKEND_PREFIX = "localhost"; };
+        packages.local-frontend = self.build { BACKEND_PREFIX = "http://localhost"; };
 
         # BACKEND_PREFIX without trailing slash
         build = { BACKEND_PREFIX }: pkgs.rustPlatform.buildRustPackage {
