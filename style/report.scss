@@ -1,0 +1,30 @@
+.category-tests {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    margin-bottom: 0.5rem;
+
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.category-container {
+  border-style: solid;
+  border-width: 0.1rem;
+  border-radius: 1rem;
+  border-color: var(--case-part-border-color);
+  // background: var(--case-part-box);
+  margin-bottom: 0.5rem;
+
+  summary {
+    font-weight: bold;
+  }
+
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}

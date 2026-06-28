@@ -1,0 +1,15 @@
+.submission-drop-container {
+  background: var(--upload-background);
+  padding: 1rem;
+  border-radius: 0.6rem;
+  min-height: 3rem;
+  border-style: dashed;
+  border-color: var(--case-part-border-color);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+}

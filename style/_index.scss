@@ -8,6 +8,7 @@ $dark-background: rgb(25, 35, 44);
 
 [data-theme="dark"] {
   --main-background: rgb(25, 35, 44);
+  --upload-background: #{lighten($color: rgb(25, 35, 44), $amount: 10%)};
   --primary-text-color: white;
   --list-numbering-color: lime;
   --case-part-border-color: white;
@@ -20,6 +21,7 @@ $dark-background: rgb(25, 35, 44);
 
 [data-theme="light"] {
   --main-background: #e0e0e0;
+  --upload-background: #{lighten($color: #e0e0e0, $amount: 10%)};
   --primary-text-color: black;
   --list-numbering-color: #a0a0a0;
   --case-part-border-color: black;
@@ -46,3 +48,5 @@ body {
 @import "case_parts.scss";
 @import "utils.scss";
 @import "testcase.scss";
+@import "upload.scss";
+@import "report.scss";
