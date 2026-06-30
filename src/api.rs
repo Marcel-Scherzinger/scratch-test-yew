@@ -41,7 +41,7 @@ pub async fn send_json_post_json<R: DeserializeOwned>(
 }
 
 pub async fn send_json_get_status(suffix: &str) -> Result<u16, reqwasm::Error> {
-    let host = make_host()
+    let host = make_host();
     log::info!("{host}/{suffix}");
     let response = reqwasm::http::Request::get(&format!("{host}/{}", suffix))
         .header("content-type", "application/json")
