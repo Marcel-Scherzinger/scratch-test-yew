@@ -2,6 +2,7 @@ use sreport::report::Report;
 use yew::prelude::*;
 
 use crate::{
+    UserIdentifier,
     components::{FileDetails, FileUpload},
     report::ReportComponent,
 };
@@ -13,6 +14,13 @@ pub struct ExerciseProps {
 
 #[function_component(ExercisePage)]
 pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
+    let user_id: UserIdentifier = if let Some(ctx) = use_context() {
+        ctx
+    } else {
+        log::error!("user identifier should always be there at this point");
+        UserIdentifier("".into())
+    };
+
     let files_handle: UseStateHandle<Option<FileDetails>> = use_state(move || None);
     let file_selected = Callback::from({
         let files_handle = files_handle.clone();
@@ -34,6 +42,8 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
             let mut map = serde_json::Map::new();
             map.insert("program".into(), json);
             map.insert("exercise".into(), exercise.to_string().into());
+            map.insert("agent".into(), "web".into());
+            map.insert("session".into(), user_id.to_string().into());
             map
         });
 

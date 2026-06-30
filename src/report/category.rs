@@ -1,7 +1,4 @@
-use sreport::{
-    prelude::{Category, Simulation},
-    report::Report,
-};
+use sreport::prelude::Category;
 use yew::prelude::*;
 
 use crate::{messages::MessageHubComponent, testcase::TestCaseComponent, utils::sinplu};

@@ -13,11 +13,6 @@ fn to_list_items<D: ToString>(iter: impl Iterator<Item = D>) -> impl Iterator<It
     iter.map(|i| html!(<li><Literal text={i.to_string()}/></li>))
 }
 
-#[derive(Properties, PartialEq)]
-pub struct OutputProps {
-    pub output: TestCase,
-}
-
 #[function_component(TestCaseComponent)]
 pub fn test_case(TestCaseProps { case }: &TestCaseProps) -> Html {
     let messages = case.messages().clone();
