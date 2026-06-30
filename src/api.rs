@@ -10,18 +10,43 @@ pub enum ApiError {
 
 pub const BACKEND_PREFIX: &str = std::env!("BACKEND_PREFIX");
 
-pub async fn send_json<R: DeserializeOwned>(
+fn make_host() -> String {
+    let host = BACKEND_PREFIX.trim_end_matches("/");
+    let lowercase = host.to_lowercase();
+    if lowercase.starts_with("http://") || lowercase.starts_with("https://") {
+        host.to_string()
+    } else if std::option_env!("NO_SMART_BACKEND_PREFIX").unwrap_or("0") == "1" {
+        host.to_string()
+    } else {
+        format!("http://{host}")
+    }
+}
+
+pub async fn send_json_post_json<R: DeserializeOwned>(
     suffix: &str,
     body: impl serde::Serialize,
 ) -> Result<R, ApiError> {
     let body = serde_json::to_string(&body)?;
-    log::info!("{BACKEND_PREFIX}/{suffix}");
-    let response = reqwasm::http::Request::post(&format!("{BACKEND_PREFIX}/{}", suffix))
+    let host = BACKEND_PREFIX.trim_end_matches("/");
+    log::info!("{host}/{suffix}");
+
+    let response = reqwasm::http::Request::post(&format!("{host}/{}", suffix))
         .header("content-type", "application/json")
         .body(body)
         .send()
         .await?
         .json::<R>()
         .await?;
+    Ok(response)
+}
+
+pub async fn send_json_get_status(suffix: &str) -> Result<u16, reqwasm::Error> {
+    let host = BACKEND_PREFIX.trim_end_matches("/");
+    log::info!("{host}/{suffix}");
+    let response = reqwasm::http::Request::get(&format!("{host}/{}", suffix))
+        .header("content-type", "application/json")
+        .send()
+        .await?
+        .status();
     Ok(response)
 }

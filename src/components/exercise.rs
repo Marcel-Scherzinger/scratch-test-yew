@@ -27,6 +27,25 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
         move |file| files_handle.set(Some(file))
     });
     let current_report = use_state_eq(move || None::<Report>);
+    let exercise_exists = use_state_eq(move || None::<bool>);
+
+    {
+        let c_exercise_exists = exercise_exists.clone();
+        let url = format!("api/v1/check/{}", exercise);
+        wasm_bindgen_futures::spawn_local(async move {
+            let rep = crate::api::send_json_get_status(&url).await;
+            match rep {
+                Err(err) => log::error!("{err:?}"),
+                Ok(200) => c_exercise_exists.set(Some(true)),
+                Ok(404) => c_exercise_exists.set(Some(false)),
+                _ => {}
+            }
+        });
+    }
+    if exercise_exists.is_none_or(|x| !x) {
+        use crate::components::NotFoundPage;
+        return html!(<NotFoundPage/>);
+    }
 
     if let Some(file) = files_handle.as_ref() {
         let file = file.clone();
@@ -51,7 +70,7 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
             Ok(json) => {
                 let c_current_report = current_report.clone();
                 wasm_bindgen_futures::spawn_local(async move {
-                    let rep = crate::api::send_json("api/v1/run", json).await;
+                    let rep = crate::api::send_json_post_json("api/v1/run", json).await;
                     if rep.is_err() {
                         log::error!("{rep:?}");
                     }
