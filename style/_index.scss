@@ -13,6 +13,7 @@ $dark-background: rgb(25, 35, 44);
   --list-numbering-color: lime;
   --case-part-border-color: white;
 
+  --info-background: #{darken($color: rgba(0, 120, 250, 0.8), $amount: 10%)};
   --success-background: #{darken($color: rgba(0, 200, 0, 0.8), $amount: 10%)};
   --warning-background: #{darken($color: rgba(250, 120, 0, 0.8), $amount: 10%)};
   --failure-background: #{darken($color: rgba(250, 0, 0, 0.7), $amount: 10%)};
@@ -26,6 +27,7 @@ $dark-background: rgb(25, 35, 44);
   --list-numbering-color: #a0a0a0;
   --case-part-border-color: black;
 
+  --info-background: #{darken($color: rgba(0, 180, 210, 0.8), $amount: 5%)};
   --success-background: #{darken($color: rgba(0, 200, 0, 0.8), $amount: 5%)};
   --warning-background: #{darken($color: rgba(250, 120, 0, 0.8), $amount: 5%)};
   --failure-background: #{darken($color: rgba(250, 0, 0, 0.7), $amount: 5%)};
