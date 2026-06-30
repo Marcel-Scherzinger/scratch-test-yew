@@ -1,6 +1,7 @@
 function onBaseVisit() {
     const base = document.querySelector('base');
-    const href = base ? base.getAttribute('href') : '';
+    let href = base ? base.getAttribute('href') : '';
+    while (href.endsWith('/')) href = href.substring(0, href.length - 1);
 
     const cssText = `
         @font-face {
@@ -23,7 +24,6 @@ function onBaseVisit() {
             word-wrap: normal;
             direction: ltr;
         }`;
-    console.log(cssText);
 
     const style = document.createElement('style');
     // style.type = 'text/css';
