@@ -6,7 +6,7 @@ use yew_router::prelude::*;
 pub enum MainRoute {
     // #[at("/")]
     // Home,
-    #[at("/exercise/:id")]
+    #[at("/aufgabe/:id")]
     Exercise { id: String },
 
     #[at("/")]
