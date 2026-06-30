@@ -84,7 +84,7 @@
                 "scratch-test-interpreter-0.1.0" = "sha256-O3MS45yI0dxiAexsr1d7EVPfqHQH1LoHY5s+u6Zl/9M=";
                 "scratch-test-model-0.1.0" = "sha256-IJr9UMl3kXnbKNw7FPT0k9kNxIlDwlbV2NgfQieJoOQ=";
                 "scratch-test-value-0.1.0" = "sha256-s9CTHeoHne76kJbOpB7r8n4dDkWzHWiA/VUOq5zkDXE=";
-                "scratch-test-report-0.1.0" = "sha256-ySUR7+v6Ip4c7Yc6KrwazaTwlqSpbRmKW4x2almh9uk=";
+                "scratch-test-report-0.1.0" = "sha256-gHPpjTKeMgp1+G6WxJhxAUkGIxaGi3qQaSmOwy0Ke2o=";
               };
             };
 
