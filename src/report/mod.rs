@@ -10,15 +10,17 @@ use crate::messages::MessageHubComponent;
 #[derive(Properties, derive_more::PartialEq)]
 pub struct ReportProps {
     pub report: Report,
+    #[prop_or_default]
+    pub class: Classes,
 }
 #[function_component(ReportComponent)]
-pub fn report_component(ReportProps { report }: &ReportProps) -> Html {
+pub fn report_component(ReportProps { report, class }: &ReportProps) -> Html {
     let mut report = report.clone();
     report.add_extra_messages();
     let messages = report.messages().clone();
     let simulation = report.simulation();
 
-    html!(<div class="report-container">
+    html!(<div class={classes!("report-container", class)}>
         <MessageHubComponent<Report> open={true} {messages} classes={"report-messages"}/>
 
         if let Some(simulation) = simulation {

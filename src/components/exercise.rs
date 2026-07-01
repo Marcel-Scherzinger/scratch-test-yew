@@ -22,11 +22,15 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
     };
 
     let files_handle: UseStateHandle<Option<FileDetails>> = use_state(move || None);
+    let current_report = use_state_eq(move || None);
     let file_selected = Callback::from({
         let files_handle = files_handle.clone();
-        move |file| files_handle.set(Some(file))
+        let current_report = current_report.clone();
+        move |file| {
+            files_handle.set(Some(file));
+            current_report.set(None);
+        }
     });
-    let current_report = use_state_eq(move || None::<Report>);
     let exercise_exists = use_state_eq(move || None::<bool>);
 
     {
@@ -79,29 +83,43 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
         match body {
             Ok(json) => {
                 let c_current_report = current_report.clone();
-                wasm_bindgen_futures::spawn_local(async move {
-                    let rep = crate::api::send_json_post_json("api/v1/run", json).await;
-                    if rep.is_err() {
-                        log::error!("{rep:?}");
-                    }
-                    c_current_report.set(rep.ok());
-                });
-                if let Some(report) = &(*current_report) {
+                if c_current_report.is_none() {
+                    wasm_bindgen_futures::spawn_local(async move {
+                        let rep = crate::api::send_json_post_json("api/v1/run", json).await;
+                        if rep.is_err() {
+                            log::error!("{rep:?}");
+                        }
+                        c_current_report.set(Some(rep.ok()));
+                    });
+                }
+
+                let done = |report: &Report| {
                     html!(
                         <>
                         <h1>{ "Willkommen zu Bast3St" }</h1>
-                        <FileUpload {file_selected}/>
-                        <ReportComponent report={report.clone()}/>
+                        <FileUpload file_selected={file_selected.clone()}/>
+                        <ReportComponent report={report.clone()} class="report"/>
                         </>
                     )
-                } else {
-                    html!(
+                };
+                let upload_error = html!(
+                    <>
+                    <h1>{ "Willkommen zu Bast3St" }</h1>
+                    <FileUpload file_selected={file_selected.clone()}/>
+                    <p>{"Ich konnte Ihre Abgabe nicht hochladen. Sind Sie mit dem Internet verbunden?"}</p>
+                    </>
+                );
+
+                match &(*current_report) {
+                    Some(Some(report)) => done(report),
+                    Some(None) => upload_error,
+                    None => html!(
                         <>
                         <h1>{ "Willkommen zu Bast3St" }</h1>
                         <FileUpload {file_selected}/>
-                        <p>{"Ich konnte Ihre Abgabe nicht hochladen. Sind Sie mit dem Internet verbunden?"}</p>
+                        <p>{"Bitte warten..."}</p>
                         </>
-                    )
+                    ),
                 }
             }
             Err(_error) => html!(

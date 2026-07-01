@@ -18,10 +18,12 @@ use yew_hooks::use_local_storage;
 enum Theme {
     #[display("dark")]
     Dark,
+    #[allow(unused)]
     #[display("light")]
     Light,
 }
 
+#[allow(unused)]
 fn read_scheme() -> Option<Theme> {
     let mql = window()?
         .match_media("(prefers-color-scheme: dark)")

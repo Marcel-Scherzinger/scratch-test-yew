@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use gloo::file::callbacks::FileReader;
 use web_sys::{DragEvent, Event, HtmlInputElement};
 use yew::html::TargetCast;
-use yew::{Callback, Component, Context, Html, classes, html};
+use yew::{Callback, Classes, Component, Context, Html, classes, html};
 
 #[derive(Debug, Clone)]
 pub struct FileDetails {
@@ -21,6 +21,8 @@ pub enum Msg {
 #[derive(yew::Properties, PartialEq)]
 pub struct FileUploadProps {
     pub file_selected: Callback<FileDetails>,
+    #[prop_or_default]
+    pub class: Classes,
 }
 
 pub struct FileUpload {
@@ -72,7 +74,7 @@ impl Component for FileUpload {
         });
 
         html! {
-            <div class={classes!("submission-upload-wrapper")}>
+            <div class={classes!("submission-upload-wrapper", ctx.props().class.clone())}>
                 <label for="file-upload">
                     <div
                         id="drop-container"

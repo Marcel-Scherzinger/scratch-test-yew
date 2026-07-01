@@ -28,3 +28,19 @@
   padding-top: 0.3rem;
   padding-bottom: 0.3rem;
 }
+
+@keyframes fade-in-top {
+  from {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.report-container {
+  animation: fade-in-top ease 0.4s forwards;
+}
