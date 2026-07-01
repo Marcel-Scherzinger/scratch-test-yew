@@ -52,7 +52,7 @@ fn app() -> Html {
         id
     };
 
-    let ctx = use_state(|| read_scheme().unwrap_or(Theme::Dark));
+    let ctx = use_state(|| /* read_scheme().unwrap_or(Theme::Dark) */ Theme::Dark);
     {
         let document = gloo::utils::document();
         if let Some(html) = document.document_element() {

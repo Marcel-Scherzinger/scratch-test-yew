@@ -46,6 +46,23 @@ body {
   color: var(--primary-text-color);
 }
 
+@media print {
+  * {
+    --case-part-border-color: black;
+    --list-numbering-color: #808080;
+    --main-background: none;
+    --primary-text-color: black;
+    --case-part-box: white;
+  }
+
+  .submission-upload-wrapper,
+  h1 {
+    display: none;
+  }
+}
+
+
+
 @import "messages.scss";
 @import "case_parts.scss";
 @import "utils.scss";
