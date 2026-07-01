@@ -110,6 +110,78 @@ pub fn message_kind(
                 </tr>
             </table>
         </>),
+        TestCriterion::LastOutputContainsNumber {
+            expected,
+            sample_expected,
+            found_numbers,
+            received_contains: _,
+        } => html!(<>
+        <i>
+            if is_happy {
+                {"Ihre Ausgabe enthält die erwartete Zahl!"}
+            } else {
+                {"In Ihrer Ausgabe fehlt die erwartete Zahl!"}
+            }
+        </i>
+            <table>
+                <tr>
+                    <td>{"Ihre Ausgabe: "}</td>
+                    <td>{output}</td>
+                </tr>
+                <tr>
+                    <td>{"Erwartete Zahl: "}</td>
+                    <td><Literal text={expected.to_string()}/></td>
+                </tr>
+                <tr>
+                    <td>{"In ihrer Ausgabe gefunden: "}</td>
+                    <td><ul class="found-numbers-list">
+                        {for found_numbers.iter().map(
+                            |n| html!(<li><span>{n.to_string()}</span></li>)
+                        )}
+                    </ul></td>
+                </tr>
+                <tr>
+                    <td>{"Beipielausgabe: "}</td>
+                    <td><Literal text={sample_expected.to_string()}/></td>
+                </tr>
+            </table>
+        </>),
+        TestCriterion::LastOutputContainsOnlyThisNumber {
+            expected,
+            sample_expected,
+            found_numbers,
+            received_contains_only_this: _,
+        } => html!(<>
+        <i>
+            if is_happy {
+                {"Ihre Ausgabe enthält nur die erwartete Zahl!"}
+            } else {
+                {"In Ihrer Ausgabe fehlt die erwartete Zahl oder es kommen weitere vor!"}
+            }
+        </i>
+            <table>
+                <tr>
+                    <td>{"Ihre Ausgabe: "}</td>
+                    <td>{output}</td>
+                </tr>
+                <tr>
+                    <td>{"Erwartete Zahl: "}</td>
+                    <td><Literal text={expected.to_string()}/></td>
+                </tr>
+                <tr>
+                    <td>{"In ihrer Ausgabe gefunden: "}</td>
+                    <td><ul class="found-numbers-list">
+                        {for found_numbers.iter().map(
+                            |n| html!(<li><span>{n.to_string()}</span></li>)
+                        )}
+                    </ul></td>
+                </tr>
+                <tr>
+                    <td>{"Beipielausgabe: "}</td>
+                    <td><Literal text={sample_expected.to_string()}/></td>
+                </tr>
+            </table>
+        </>),
     };
 
     let icon = if is_happy { "check" } else { "chat_error" };

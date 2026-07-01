@@ -41,7 +41,8 @@
 .testcase-inputs,
 .testcase-outputs,
 .testcase-lists,
-.testcase-randoms {
+.testcase-randoms,
+.found-numbers-list {
   li {
     font-size: 0.75rem;
     color: var(--list-numbering-color);
