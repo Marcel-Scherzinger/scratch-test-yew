@@ -13,9 +13,10 @@ pub const BACKEND_PREFIX: &str = std::env!("BACKEND_PREFIX");
 fn make_host() -> String {
     let host = BACKEND_PREFIX.trim_end_matches("/");
     let lowercase = host.to_lowercase();
-    if lowercase.starts_with("http://") || lowercase.starts_with("https://") {
-        host.to_string()
-    } else if std::option_env!("NO_SMART_BACKEND_PREFIX").unwrap_or("0") == "1" {
+    if lowercase.starts_with("http://")
+        || lowercase.starts_with("https://")
+        || std::option_env!("NO_SMART_BACKEND_PREFIX").unwrap_or("0") == "1"
+    {
         host.to_string()
     } else {
         format!("http://{host}")

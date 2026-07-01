@@ -22,6 +22,7 @@ thiserror = "2.0.18"
 serde = "1.0.228"
 yew-hooks = "0.6.4"
 uuid = { version = "1.23.4", features = ["js", "v4"] }
+itertools = "0.15.0"
 
 [dependencies.sreport]
 git = "https://github.com/Marcel-Scherzinger/scratch-test-report.git"
