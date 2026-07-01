@@ -35,16 +35,26 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
         wasm_bindgen_futures::spawn_local(async move {
             let rep = crate::api::send_json_get_status(&url).await;
             match rep {
-                Err(err) => log::error!("{err:?}"),
+                Err(err) => {
+                    log::error!("{err:?}");
+                    c_exercise_exists.set(Some(false));
+                }
                 Ok(200) => c_exercise_exists.set(Some(true)),
                 Ok(404) => c_exercise_exists.set(Some(false)),
-                _ => {}
+                _ => {
+                    c_exercise_exists.set(Some(false));
+                }
             }
         });
-    }
-    if exercise_exists.is_none_or(|x| !x) {
-        use crate::components::NotFoundPage;
-        return html!(<NotFoundPage/>);
+
+        match exercise_exists.as_ref() {
+            None => return html!(),
+            Some(false) => {
+                use crate::components::NotFoundPage;
+                return html!(<NotFoundPage/>);
+            }
+            _ => {}
+        }
     }
 
     if let Some(file) = files_handle.as_ref() {
