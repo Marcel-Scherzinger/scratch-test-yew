@@ -18,6 +18,13 @@ const MSG3: Message<TestCase> = Message::cerror(
     "Als ich Ihr Programm aufgerufen habe, hat Ihre Ausgabe einen der anderen abgeprüften Namen enthalten. Deshalb nehme ich an, dass Sie die Aufgabe nicht richtig lösen, sondern die Ergebnisse fest in Ihr Programm kodieren.",
 );
 
+#[cfg(not(debug_assertions))]
+#[function_component(LandingPage)]
+pub fn landing_page() -> Html {
+    html!()
+}
+
+#[cfg(debug_assertions)]
 #[function_component(LandingPage)]
 pub fn landing_page() -> Html {
     let mut case = TestCase::create();
