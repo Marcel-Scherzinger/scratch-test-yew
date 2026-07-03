@@ -12,7 +12,18 @@ $highlight-color: #f0ff00;
   font-size: 1.2rem;
 }
 
-.name-highlight {
+h1 {
+  margin: auto;
+  text-align: center;
+}
+
+.name-highlight,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: $highlight-color;
   text-shadow: 0 0 5px $highlight-color;
 }
