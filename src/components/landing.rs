@@ -23,7 +23,7 @@ pub fn landing_page() -> Html {
     use Either::Right as R;
     let name_expl = [
         (
-            vec![R("Baste"), L("S"), R("t")],
+            vec![R("Bast3"), L("S"), R("t")],
             "Scratch ist mein Gebiet und das beginnt mit S.",
         ),
         (
@@ -54,7 +54,7 @@ pub fn landing_page() -> Html {
                 <h1 style={"margin: auto; text-align: center;"}>
                     {"Willkommen zu Bast3St!"}
                 </h1>
-                <p class="welcome-info">{"Ich bin dazu da, um Ihnen bei Ihren Scratch-Abgaben zu helfen. Sie können mir Ihre Dateien geben und ich teste Sie für die jewiligen Aufgaben mit verschiedenen Eingaben. Wenn alles passt wissen, Sie auf diese Weise sofort, dass Ihre Lösung ausreichend ist. Ab und zu kann ich Ihnen auch Tipps bei Fehlern geben, sofern ich erkenne, worin das Problem besteht."}</p>
+                <p class="welcome-info">{"Ich bin dazu da, um Ihnen bei Ihren Scratch-Abgaben zu helfen. Sie können mir Ihre Dateien geben und ich teste Sie für die jewiligen Aufgaben mit verschiedenen Eingaben. Wenn alles passt, wissen Sie auf diese Weise sofort, dass Ihre Lösung ausreichend ist. Ab und zu kann ich Ihnen auch Tipps bei Fehlern geben, sofern ich erkenne, worin das Problem besteht."}</p>
                 <p class="welcome-info">{"Noch befinde ich mich in der Versuchsphase. Wenn Ihnen also etwas auffällt, das ich besser machen sollte, oder wenn Sie mit einem Hinweis nicht zurechtkommen, zögern Sie nicht, über das Forum nachzufragen."}</p>
 
                 <section class="welcome-info">
