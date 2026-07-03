@@ -1,9 +1,39 @@
 $darken-msg-boxes: 10%;
 $dark-background: rgb(25, 35, 44);
 
+$highlight-color: #f0ff00;
+
 // allows for adding transparent color on top of another color, the ground
 @function overlayback($top, $ground) {
   @return linear-gradient($top, $top), linear-gradient($ground, $ground);
+}
+
+.name-info td:first-child {
+  font-size: 1.2rem;
+}
+
+.name-highlight {
+  color: $highlight-color;
+  text-shadow: 0 0 5px $highlight-color;
+}
+
+.name-unimportant {
+  color: #808080;
+  text-shadow: 0 0 5px #808080;
+}
+
+
+.welcome-info {
+  // background: var(--info-background);
+  background: var(--case-part-box);
+  border-style: solid;
+  border-width: 0.1rem;
+  border-radius: 1rem;
+  border-color: var(--case-part-border-color);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
 }
 
 [data-theme="dark"] {
