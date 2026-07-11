@@ -1,3 +1,4 @@
+use super::info_section::InfoSection;
 use sreport::report::Report;
 use yew::prelude::*;
 
@@ -135,6 +136,7 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
             <>
                 <h1>{ "Willkommen zu Bast3St" }</h1>
                 <FileUpload {file_selected}/>
+                <InfoSection/>
             </>
         )
     }

@@ -1,5 +1,6 @@
 mod exercise;
 mod file_upload;
+mod info_section;
 mod landing;
 mod not_found;
 
