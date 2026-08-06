@@ -4,6 +4,7 @@ use yew::prelude::*;
 
 use crate::{
     UserIdentifier,
+    api::SharableError,
     components::{FileDetails, FileUpload},
     report::ReportComponent,
 };
@@ -86,11 +87,11 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
                 let c_current_report = current_report.clone();
                 if c_current_report.is_none() {
                     wasm_bindgen_futures::spawn_local(async move {
-                        let rep = crate::api::send_json_post_json("api/v1/run", json).await;
+                        let rep = crate::api::send_json_post_json("api/v1/run", &json).await;
                         if rep.is_err() {
                             log::error!("{rep:?}");
                         }
-                        c_current_report.set(Some(rep.ok()));
+                        c_current_report.set(Some(rep.map_err(|err| err.into_sharable())));
                     });
                 }
 
@@ -103,17 +104,73 @@ pub fn exercise(ExerciseProps { exercise }: &ExerciseProps) -> Html {
                         </>
                     )
                 };
-                let upload_error = html!(
-                    <>
-                    <h1>{ "Willkommen zu Bast3St" }</h1>
-                    <FileUpload file_selected={file_selected.clone()}/>
-                    <p>{"Ich konnte Ihre Abgabe nicht hochladen. Sind Sie mit dem Internet verbunden?"}</p>
-                    </>
-                );
+                let upload_error = |serr: &crate::api::SharableError| {
+                    let msg = match serr {
+                        SharableError::ReqConv(err) => html!(<>
+                            <p>{"Ich habe es nicht geschafft, Ihre Abgabe in ein Format zu überführen, das ich hochladen kann. Das sollte niemals passieren."}</p>
+                            <details>
+                                <summary>{"Eventuell sehr langer, technischer Fehler"}</summary>
+                                <code>{err}</code>
+                            </details>
+                        </>),
+                        SharableError::RespError(err) => html!(<>
+                            {"Ich konnte Ihre Abgabe nicht hochladen. Wenn Sie sicher mit dem Internet verbunden sind, stimmt vielleicht etwas mit dem Server nicht."}
+                            <details>
+                                <summary>{"Eventuell sehr langer, technischer Fehler"}</summary>
+                                {err}
+                            </details>
+                        </>),
+                        SharableError::NoJsonError { status, text, err } => match status {
+                            413 => html!(<>
+                            {"Es sieht so aus, als hätte Ihre Datei die erlaubte Maximalgröße für Abgaben überschritten. Diese Beschränkung gibt es nur, um sich for Angreifern zu schützen. Sie können im Forum nachfragen, damit diese Beschränkung höher gesetzt wird."}
+                                <details>
+                                    <summary>{"Eventuell sehr langer, technischer Fehler"}</summary>
+                                    <ul>
+                                        <li><code>{text}</code></li>
+                                        <li><code>{err}</code></li>
+                                    </ul>
+                                </details>
+                            </>),
+                            422 => html!(<>
+                                <p>{"Es tut mit sehr leid, aber Ihre Datei widerspricht meinem bisherigen Wissen über das Scratch-Dateiformat; das kannte ich bisher nur von KI-generierten Programmen. Wenn Sie die Datei dem Orga-Team schicken, kann dieser Fehler weiter untersucht werden."}</p>
+                                <details>
+                                    <summary>{"Eventuell sehr langer, technischer Fehler"}</summary>
+                                    <ul>
+                                        <li><code>{text}</code></li>
+                                        <li><code>{err}</code></li>
+                                    </ul>
+                                </details>
+                            </>),
+                            _ => html!(<>
+                            {"Ich kann nicht einordnen, was passiert ist. Ich glaube jedoch nicht, dass es an Ihrer Datei liegt. Am besten schreiben Sie in das Forum."}
+                                <details>
+                                    <summary>{"Eventuell sehr langer, technischer Fehler"}</summary>
+                                    <ul>
+                                        <li><code>{status}</code></li>
+                                        <li><code>{text}</code></li>
+                                        <li><code>{err}</code></li>
+                                    </ul>
+                                </details>
+                            </>
+                            ),
+                        },
+                    };
+
+                    html!(
+                        <>
+                        <h1>{ "Willkommen zu Bast3St" }</h1>
+                        <FileUpload file_selected={file_selected.clone()}/>
+                        <div class="fatal-error-box">
+                        <h2>{"Es ist ein Fehler aufgetreten"}</h2>
+                        {msg}
+                        </div>
+                        </>
+                    )
+                };
 
                 match &(*current_report) {
-                    Some(Some(report)) => done(report),
-                    Some(None) => upload_error,
+                    Some(Ok(report)) => done(report),
+                    Some(Err(serr)) => upload_error(serr),
                     None => html!(
                         <>
                         <h1>{ "Willkommen zu Bast3St" }</h1>

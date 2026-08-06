@@ -6,6 +6,36 @@ pub enum ApiError {
     ReqConv(#[from] serde_json::Error),
     #[error("Response failed {0}")]
     RespError(#[from] reqwasm::Error),
+    #[error("Response didn't contain json: status: {0:?}, text: {1:?}, error: {2:?}")]
+    NoJsonError(u16, String, Option<serde_json::Error>),
+}
+
+#[derive(thiserror::Error, Debug, PartialEq)]
+pub enum SharableError {
+    #[error("Conversion of request to json failed: {0}")]
+    ReqConv(String),
+    #[error("Response failed {0}")]
+    RespError(String),
+    #[error("Response didn't contain json: status: {status:?}, text: {text:?}, error: {err:?}")]
+    NoJsonError {
+        status: u16,
+        text: String,
+        err: String,
+    },
+}
+
+impl ApiError {
+    pub fn into_sharable(&self) -> SharableError {
+        match self {
+            Self::ReqConv(err) => SharableError::ReqConv(err.to_string()),
+            Self::RespError(err) => SharableError::RespError(err.to_string()),
+            Self::NoJsonError(status, text, err) => SharableError::NoJsonError {
+                status: *status,
+                text: text.to_string(),
+                err: err.as_ref().map(|s| s.to_string()).unwrap_or_default(),
+            },
+        }
+    }
 }
 
 pub const BACKEND_PREFIX: &str = std::env!("BACKEND_PREFIX");
@@ -35,10 +65,14 @@ pub async fn send_json_post_json<R: DeserializeOwned>(
         .header("content-type", "application/json")
         .body(body)
         .send()
-        .await?
-        .json::<R>()
         .await?;
-    Ok(response)
+    let text = response.text().await?;
+    let json = serde_json::from_str::<R>(&text);
+
+    match json {
+        Ok(r) => Ok(r),
+        Err(err) => Err(ApiError::NoJsonError(response.status(), text, Some(err))),
+    }
 }
 
 pub async fn send_json_get_status(suffix: &str) -> Result<u16, reqwasm::Error> {
