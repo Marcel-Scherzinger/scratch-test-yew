@@ -156,7 +156,7 @@ pub fn message_kind(
             if is_happy {
                 {"Ihre Ausgabe enthält nur die erwartete Zahl!"}
             } else {
-                {"In Ihrer Ausgabe fehlt die erwartete Zahl oder es kommen weitere vor!"}
+                {"In Ihrer Ausgabe fehlt die erwartete Zahl oder es kommen weitere vor! Abseits des Ergebnisses sollten in Ihrer letzten Ausgabe keine weiteren Zahlen vorkommen, sonst weiß ich nicht, welche Sie meinen."}
             }
         </i>
             <table>
