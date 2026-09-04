@@ -1,4 +1,5 @@
-use sreport::prelude::TestCriterion;
+use itertools::Itertools;
+use sreport::{prelude::TestCriterion, simulation::ListEqualityProblem};
 use yew::prelude::*;
 
 use crate::{MaterialIcon, utils::Literal};
@@ -110,6 +111,36 @@ pub fn message_kind(
                 </tr>
             </table>
         </>),
+        TestCriterion::ListExactlyEqual {
+            list_name,
+            expected,
+            found,
+            problem,
+        } => {
+            let table_trs = found.iter().zip_longest(expected).map(|zl| match zl {
+                itertools::EitherOrBoth::Both(a, b) => {
+                    html!(<tr><td>{a.to_string()}</td><td>{b.to_string()}</td></tr>)
+                }
+                itertools::EitherOrBoth::Left(a) => html!(<tr><td>{a.to_string()}</td></tr>),
+                itertools::EitherOrBoth::Right(b) => html!(<tr><td>{b.to_string()}</td></tr>),
+            });
+
+            html!(<>
+            <i>{match problem {
+                Some(ListEqualityProblem::ListNotFound) => format!("Es konnte keine passende Liste gefunden werden (oder sie ist nicht eindeutig): Erwartet wurde {list_name}"),
+                Some(ListEqualityProblem::ItemDifferent) => format!("Nicht alle Listenelemente stimmen mit den erwarteten Werten überein ({list_name})"),
+                Some(ListEqualityProblem::LengthsDifferent) => format!("Die fragliche Liste hat nicht die richtige Länge: {list_name}"),
+                None => format!("Die Liste passt zu den erwarteten Werten ({list_name})")
+            }}</i>
+            <table>
+                <tr>
+                    <td>{"Ihre Liste:"}</td>
+                    <td>{"Die erwartete Liste:"}</td>
+                </tr>
+                { for table_trs }
+            </table>
+        </>)
+        }
         TestCriterion::LastOutputContainsNumber {
             expected,
             sample_expected,
