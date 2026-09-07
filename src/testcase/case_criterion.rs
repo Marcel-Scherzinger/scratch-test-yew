@@ -48,6 +48,15 @@ pub fn message_kind(
                 </tr>
             </table>
         </>),
+        TestCriterion::Message { happy: _ } => html!(<>
+        <i>
+            if is_happy {
+                {"Das Programmverhalten sieht in Ordnung aus, bitte beachten Sie eventuelle Meldungen"}
+            } else {
+                {"Das Programm weist Probleme auf, bitte beachten Sie eventuelle Meldungen"}
+            }
+        </i>
+        </>),
         TestCriterion::LastOutputContains {
             sample_expected,
             expected,

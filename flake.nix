@@ -39,14 +39,14 @@
         packages.wasm-bindgen-cli = pkgs.buildWasmBindgenCli rec {
           src = pkgs.fetchCrate {
             pname = "wasm-bindgen-cli";
-            version = "0.2.127";
-            hash = "sha256-di+qBAdd7pENLiIB9CoZoab+W5xeDoByMREcCGTSzWo=";
+            version = "0.2.128";
+            hash = "sha256-a7lcXJnnZkYReja+iUO7NqqrWyv3toxnUgQb8s4IS5s=";
           };
 
           cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
             inherit src;
             inherit (src) pname version;
-            hash = "sha256-FTv2GZIAQs0ePdIZXIXil7JbZ6kIT05VG6vqC1qNFxQ=";
+            hash = "sha256-R1Tas33Ursy8kqsxguAkG0ZhNed2n5uFTAhw1l2qlLY=";
           };
         };
 
@@ -84,7 +84,7 @@
                 "scratch-test-interpreter-0.1.0" = "sha256-O3MS45yI0dxiAexsr1d7EVPfqHQH1LoHY5s+u6Zl/9M=";
                 "scratch-test-model-0.1.0" = "sha256-IJr9UMl3kXnbKNw7FPT0k9kNxIlDwlbV2NgfQieJoOQ=";
                 "scratch-test-value-0.1.0" = "sha256-s9CTHeoHne76kJbOpB7r8n4dDkWzHWiA/VUOq5zkDXE=";
-                "scratch-test-report-0.1.0" = "sha256-JlHkJHziHhAGuDtO8h9fP+R125Y9ypH4u5vYkx5Vipk=";
+                "scratch-test-report-0.1.0" = "sha256-OVrNttSy0WR5lZUcV3UtkW9FmvSAJjdbhxAGy7z3x6o=";
               };
             };
 
