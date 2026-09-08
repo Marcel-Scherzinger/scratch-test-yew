@@ -57,3 +57,26 @@
   }
 
 }
+
+.testcase-lists table {
+  tr:not(:last-child) td details[open] {
+    margin-bottom: 1rem;
+  }
+}
+
+.testcase-lists table:has(> *:nth-child(2)) {
+  tr td details {
+    border-left-width: 0.1rem;
+    summary {
+      padding-left: 0.4rem;
+    }
+  }
+  tr:nth-child(even) td details {
+    border-left-style: solid;
+    border-left-color: #ff39ca;
+  }
+  tr:nth-child(odd) td details {
+    border-left-style: dashed;
+    border-left-color: #fbff20;
+  }
+}

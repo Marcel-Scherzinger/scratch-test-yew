@@ -51,8 +51,12 @@ pub fn test_case(TestCaseProps { case }: &TestCaseProps) -> Html {
         let list = to_list_items(value.iter());
         html!(
             <tr>
-                <td>{key.to_string()}</td>
-                <td><ol>{for list}</ol></td>
+                // <td>{key.to_string()}</td>
+                <td><details open={true}>
+                    <summary>{key.to_string()}</summary>
+                    <ol>{for list}</ol>
+                    </details>
+                </td>
             </tr>
         )
     });

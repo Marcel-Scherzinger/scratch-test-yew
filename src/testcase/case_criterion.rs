@@ -126,22 +126,34 @@ pub fn message_kind(
             found,
             problem,
         } => {
-            let table_trs = found.iter().zip_longest(expected).map(|zl| match zl {
-                itertools::EitherOrBoth::Both(a, b) => {
-                    html!(<tr><td>{a.to_string()}</td><td>{b.to_string()}</td></tr>)
-                }
-                itertools::EitherOrBoth::Left(a) => html!(<tr><td>{a.to_string()}</td></tr>),
-                itertools::EitherOrBoth::Right(b) => html!(<tr><td>{b.to_string()}</td></tr>),
-            });
+            let mut table_trs = found
+                .iter()
+                .zip_longest(expected)
+                .map(|zl| match zl {
+                    itertools::EitherOrBoth::Both(a, b) => {
+                        html!(<tr><td>{a.to_string()}</td><td>{b.to_string()}</td></tr>)
+                    }
+                    itertools::EitherOrBoth::Left(a) => {
+                        html!(<tr><td>{a.to_string()}</td><td></td></tr>)
+                    }
+                    itertools::EitherOrBoth::Right(b) => {
+                        html!(<tr><td></td><td>{b.to_string()}</td></tr>)
+                    }
+                })
+                .collect_vec();
+            if table_trs.is_empty() {
+                let leer = html!(<td data-type={"aux"}><i>{"(leer?)"}</i></td>);
+                table_trs.push(html!(<tr>{leer.clone()}{leer}</tr>));
+            }
 
             html!(<>
             <i>{match problem {
-                Some(ListEqualityProblem::ListNotFound) => format!("Es konnte keine passende Liste gefunden werden (oder sie ist nicht eindeutig): Erwartet wurde {list_name}"),
-                Some(ListEqualityProblem::ItemDifferent) => format!("Nicht alle Listenelemente stimmen mit den erwarteten Werten überein ({list_name})"),
-                Some(ListEqualityProblem::LengthsDifferent) => format!("Die fragliche Liste hat nicht die richtige Länge: {list_name}"),
+                Some(ListEqualityProblem::ListNotFound) => format!("Es konnte keine passende Liste gefunden werden (oder sie ist nicht eindeutig): Erwartet wurde {list_name:?}"),
+                Some(ListEqualityProblem::ItemDifferent) => format!("Nicht alle Listenelemente stimmen mit den erwarteten Werten überein ({list_name:?})"),
+                Some(ListEqualityProblem::LengthsDifferent) => format!("Die fragliche Liste hat nicht die richtige Länge: {list_name:?}"),
                 None => format!("Die Liste passt zu den erwarteten Werten ({list_name})")
             }}</i>
-            <table>
+            <table class="criterion-vert-table">
                 <tr>
                     <td>{"Ihre Liste:"}</td>
                     <td>{"Die erwartete Liste:"}</td>

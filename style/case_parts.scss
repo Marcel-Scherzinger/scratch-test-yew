@@ -83,6 +83,7 @@
 
 .testcase-criterion {
 
+  table:not(.criterion-vert-table) {
   td:first-child {
     font-weight: bold;
   }
@@ -90,6 +91,17 @@
   td:last-child {
     font-family: monospace;
   }
+}
+
+  .criterion-vert-table {
+  tr:first-child td {
+    font-weight: bold;
+  }
+
+  tr:not(:first-child) td:not([data-type="aux"]) {
+    font-family: monospace;
+  }
+}
 }
 
 /*.testcase-randoms {
